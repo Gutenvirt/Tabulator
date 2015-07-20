@@ -10,14 +10,13 @@ namespace Tabulator2
 {
     public static class HtmlFunctions
     {
-        public static string CreateHtmlTable(string[,] data, string tblNumber, string tblName, string tblNotes, bool hasColTitles, bool hasExtraColRow, bool hasSummaryRow, bool hasRowTitles)
+        public static string CreateHtmlTable(string[,] data, string tblNumber, string tblName, string tblNotes, bool hasColTitles, bool hasExtraColRow, bool hasSummaryRow, bool hasRowTitles, double fontSize, string tWidth)
         {
             int nRows = data.GetLength(0);
             int nCols = data.GetLength(1);
 
-            double fontSize = 11.0;
-
-            int tWidth = 650;
+            if (tWidth[tWidth.Length - 1] != '%')
+                tWidth += '%';
 
             string tagHtmlStart = "<html>";
             string tagHtmlEnd = "</html>";
@@ -48,7 +47,13 @@ namespace Tabulator2
 
             string tagPStart = "<p style='font-size:" + fontSize +"pt;font-family:\"Cambria\",serif'>";
             //string tagPStart = "<p style='font-size:" + fontSize + "pt;font-family:\"Courier New\",serif'>";
-            
+
+
+            if (fontSize < 7)
+            {
+                fontSize = 7;
+            }
+
             string tagPEnd = "</p>";
             string tagBStart = "<b>";
             string tagBEnd = "</b>";
@@ -79,25 +84,8 @@ namespace Tabulator2
 
             for (int i = 0; i < nRows; i++)
             {
-
                 sOut.AppendLine(tagRowStart + tagTableDataHeight + tagEnd);
-                /*
-                if(hasExtraColRow && i==0)
-                {
-                    for (int h = 0; h < nCols; h++)
-                    {
-                        sOut.Append(tagDataStart);
-                        if (h == 0 && hasRowTitles)
-                            sOut.Append(tagStyleNoLine + tagAlignLeft + tagEnd);
-                        else
-                            sOut.Append(tagStyleNoLine + tagAlignRight + tagEnd);
-
-                        sOut.Append(tagPStart + tagBStart + " " + tagBEnd + tagPEnd);
-                        sOut.Append(tagDataEnd);    
-                    }
-                    sOut.Append(tagRowEnd);
-                }*/
-
+                
                 for (int j = 0; j < nCols; j++)
                 {
                     sOut.AppendLine(tagDataStart);

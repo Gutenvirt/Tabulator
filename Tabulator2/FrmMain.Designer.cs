@@ -1,6 +1,6 @@
 ﻿namespace Tabulator2
 {
-    partial class Form1
+    partial class FrmMain
     {
         /// <summary>
         /// Required designer variable.
@@ -43,6 +43,7 @@
             this.cbExtraColRow = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtTableWidth = new System.Windows.Forms.TextBox();
+            this.lblStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cmdParse
@@ -164,9 +165,9 @@
             this.cbExtraColRow.AutoSize = true;
             this.cbExtraColRow.Location = new System.Drawing.Point(112, 163);
             this.cbExtraColRow.Name = "cbExtraColRow";
-            this.cbExtraColRow.Size = new System.Drawing.Size(136, 17);
+            this.cbExtraColRow.Size = new System.Drawing.Size(98, 17);
             this.cbExtraColRow.TabIndex = 4;
-            this.cbExtraColRow.Text = "Add Extra Row @ Start";
+            this.cbExtraColRow.Text = "Double Header";
             this.cbExtraColRow.UseVisualStyleBackColor = true;
             // 
             // label1
@@ -186,11 +187,22 @@
             this.txtTableWidth.TabIndex = 15;
             this.txtTableWidth.Text = "100%";
             // 
-            // Form1
+            // lblStatus
+            // 
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.ForeColor = System.Drawing.Color.Green;
+            this.lblStatus.Location = new System.Drawing.Point(376, 214);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(38, 13);
+            this.lblStatus.TabIndex = 17;
+            this.lblStatus.Text = "Ready";
+            // 
+            // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(426, 236);
+            this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtTableWidth);
             this.Controls.Add(this.cbExtraColRow);
@@ -206,8 +218,14 @@
             this.Controls.Add(this.cbHasSummaryRow);
             this.Controls.Add(this.cbHasColumnTitles);
             this.Controls.Add(this.cmdParse);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.Name = "FrmMain";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Tabulator";
+            this.TopMost = true;
+            this.Load += new System.EventHandler(this.FrmMain_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -230,6 +248,7 @@
         private System.Windows.Forms.CheckBox cbExtraColRow;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtTableWidth;
+        private System.Windows.Forms.Label lblStatus;
     }
 }
 

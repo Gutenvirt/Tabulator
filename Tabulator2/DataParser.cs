@@ -9,14 +9,14 @@ namespace Tabulator2
 {
     public static class DataParser
     {
-        public static string[,] Parser (string data)
+        public static string[,] Parser(string data)
         {
             char[] delim = new char[] { '\t' };
 
-            string[] stext = data.Trim().Split(new char[] { '\r' }, StringSplitOptions.None);
+            string[] stext = data.Split(new char[] { '\n' }, StringSplitOptions.None);
 
-            int nRows = stext.Length;
-            int nCols = stext[0].Trim().Split(delim, StringSplitOptions.None).Count();
+            int nRows = stext.Length-1;
+            int nCols = stext[0].Count(x => x == delim[0]);
 
             string[,] result = new string[nRows, nCols];
 
@@ -25,9 +25,9 @@ namespace Tabulator2
                 string[] t = stext[i].Split(delim, StringSplitOptions.None);
                 for (int j = 0; j < nCols; j++)
                 {
-                    if (string.IsNullOrWhiteSpace(t[j]) && j > 0)
+                    if (string.IsNullOrEmpty(t[j]) && j > 0)
                     {
-                        if (!string.IsNullOrWhiteSpace(result[0, j]))
+                        if (!string.IsNullOrEmpty(result[0, j]))
                             t[j] = "-";
                     }
                     result[i, j] = t[j];
