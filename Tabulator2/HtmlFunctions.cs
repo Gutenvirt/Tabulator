@@ -10,7 +10,7 @@ namespace Tabulator2
 {
     public static class HtmlFunctions
     {
-        public static string CreateHtmlTable(string[,] data, string tblNumber, string tblName, string tblNotes, bool hasColTitles, bool hasExtraColRow, bool hasSummaryRow, bool hasRowTitles, double fontSize, string tWidth)
+        public static string CreateHtmlTable(string[,] data, string tblNumber, string tblName, string tblNotes, bool hasColTitles, bool hasExtraColRow, bool hasSummaryRow, bool hasRowTitles, bool isBanded, double fontSize, string tWidth)
         {
             int nRows = data.GetLength(0);
             int nCols = data.GetLength(1);
@@ -29,23 +29,27 @@ namespace Tabulator2
                                     "<meta content=\"Microsoft Word 15\" name=\"Generator\">" +
                                 "</head>";
 
-            string tagStyleNoLine = " style='padding:0pt 5.4pt 0pt 5.4pt' ";
-            string tagStyleDoubleLine = " style='border-bottom:double; padding:0pt 5.4pt 0pt 5.4pt' ";
-            string tagstyleThinLine = " style='border-bottom:solid thin; padding:0pt 5.4pt 0pt 5.4pt' ";
-            string tagStyleTopBottomLine = " style='border-top:solid thin;border-bottom:solid thin; padding:0pt 5.4pt 0pt 5.4pt' ";
+            string tagStyleStart = "style='";
+            string tagStyleNoLine = " ";
+            string tagStyleDoubleLine = " border-bottom:double; ";
+            string tagstyleThinLine = " border-bottom:solid thin; ";
+            string tagStyleTopBottomLine = " border-top:solid thin; border-bottom:solid thin; ";
+            string tagStyleBackground = " background:#F2F2F2; ";
+            string tagStylePadding = " padding:0pt 5.4pt 0pt 5.4pt; ";
+            string tagStyleEnd = "'";
 
             string tagAlignLeft = " valign=\"center\" align=\"left\" ";
             string tagAlignRight = " valign=\"center\" align=\"right\" ";
 
             string tagEnd = ">";
 
-            string tagDataStart = "<td ";
-            string tagRowStart = "<tr ";
+            string tagTDStart = "<td ";
+            string tagTRStart = "<tr ";
             string tagTableStart = "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=";
-            string tagTableDataHeight = " style='height:17.5pt' ";
-            string tagTableOtherHeight = " style='height:7.0pt' ";
+            string tagTableDataHeight = " style='height:16.5pt' ";
+            string tagTableOtherHeight = " style='height:7pt' ";
 
-            string tagPStart = "<p style='font-size:" + fontSize +"pt;font-family:\"Cambria\",serif'>";
+            string tagPStart = "<p style='font-size:" + fontSize + "pt;font-family:\"Cambria\",serif'>";
             //string tagPStart = "<p style='font-size:" + fontSize + "pt;font-family:\"Courier New\",serif'>";
 
 
@@ -70,44 +74,62 @@ namespace Tabulator2
             sOut.AppendLine(tagBodyStart);
 
             sOut.AppendLine(tagTableStart + tWidth + tagEnd);
-            sOut.AppendLine(tagRowStart + tagTableOtherHeight + tagEnd);
-            sOut.AppendLine(tagDataStart + "colspan=\"" + nCols + "\"" + tagStyleNoLine + tagAlignLeft + tagEnd);
+            sOut.AppendLine(tagTRStart + tagTableOtherHeight + tagEnd);
+            sOut.AppendLine(tagTDStart + "colspan=\"" + nCols + "\"" + tagStyleStart + tagStylePadding + tagStyleNoLine + tagStyleEnd + tagAlignLeft + tagEnd);
             sOut.AppendLine(tagPStart + tblNumber + tagPEnd);
             sOut.AppendLine(tagDataEnd);
             sOut.AppendLine(tagRowEnd);
 
-            sOut.AppendLine(tagRowStart + tagTableOtherHeight + tagEnd);
-            sOut.AppendLine(tagDataStart + "colspan=\"" + nCols + "\"" + tagStyleDoubleLine + tagAlignLeft + tagEnd);
+            sOut.AppendLine(tagTRStart + tagTableOtherHeight + tagEnd);
+            sOut.AppendLine(tagTDStart + "colspan=\"" + nCols + "\"" + tagStyleStart + tagStylePadding + tagStyleDoubleLine + tagStyleEnd + tagAlignLeft + tagEnd);
             sOut.AppendLine(tagPStart + tagIStart + tblName + tagIEnd + tagPEnd);
             sOut.AppendLine(tagDataEnd);
             sOut.AppendLine(tagRowEnd);
 
             for (int i = 0; i < nRows; i++)
             {
-                sOut.AppendLine(tagRowStart + tagTableDataHeight + tagEnd);
-                
+                sOut.AppendLine(tagTRStart + tagTableDataHeight + tagEnd);
+
+                if (isBanded && i % 2 == 1)
+                {
+                    tagStyleStart += tagStyleBackground;
+
+                    if (hasColTitles && i == 0)
+                        tagStyleStart = "style='";
+
+                    if (hasExtraColRow && i == 1)
+                        tagStyleStart = "style='";
+
+                    if (hasSummaryRow && i == nRows - 1)
+                        tagStyleStart = "style='";       
+                }
+                else
+                {
+                    tagStyleStart = "style='";
+                }
+
                 for (int j = 0; j < nCols; j++)
                 {
-                    sOut.AppendLine(tagDataStart);
+                    sOut.AppendLine(tagTDStart);
 
-                    if (hasExtraColRow  & i < 2)
+                    if (hasExtraColRow & i < 2)
                     {
                         switch (i)
                         {
                             case 0:
                                 if (j == 0 && hasRowTitles)
-                                    sOut.Append(tagStyleNoLine + tagAlignLeft + tagEnd);
+                                    sOut.Append(tagStyleStart + tagStylePadding + tagStyleNoLine + tagStyleEnd + tagAlignLeft + tagEnd);
                                 else
-                                    sOut.Append(tagStyleNoLine + tagAlignRight + tagEnd);
+                                    sOut.Append(tagStyleStart + tagStylePadding + tagStyleNoLine + tagStyleEnd + tagAlignRight + tagEnd);
                                 break;
                             case 1:
                                 if (j == 0 && hasRowTitles)
-                                    sOut.Append(tagstyleThinLine + tagAlignLeft + tagEnd);
+                                    sOut.Append(tagStyleStart + tagStylePadding + tagstyleThinLine + tagStyleEnd + tagAlignLeft + tagEnd);
                                 else
-                                    sOut.Append(tagstyleThinLine + tagAlignRight + tagEnd);
+                                    sOut.Append(tagStyleStart + tagStylePadding + tagstyleThinLine + tagStyleEnd + tagAlignRight + tagEnd);
                                 break;
                         }
-                        
+
                         sOut.Append(tagPStart + tagBStart + data[i, j] + tagBEnd + tagPEnd);
                         continue;
                     }
@@ -116,9 +138,9 @@ namespace Tabulator2
                     if (i == 0 && hasColTitles)
                     {
                         if (j == 0 && hasRowTitles)
-                            sOut.Append(tagstyleThinLine + tagAlignLeft + tagEnd);
+                            sOut.Append(tagStyleStart + tagStylePadding + tagstyleThinLine + tagStyleEnd + tagAlignLeft + tagEnd);
                         else
-                            sOut.Append(tagstyleThinLine + tagAlignRight + tagEnd);
+                            sOut.Append(tagStyleStart + tagStylePadding + tagstyleThinLine + tagStyleEnd + tagAlignRight + tagEnd);
 
                         sOut.Append(tagPStart + tagBStart + data[i, j] + tagBEnd + tagPEnd);
                         continue;
@@ -127,9 +149,9 @@ namespace Tabulator2
                     if (hasSummaryRow & i == nRows - 1)
                     {
                         if (j == 0 && hasRowTitles)
-                            sOut.Append(tagStyleTopBottomLine + tagAlignLeft + tagEnd);
+                            sOut.Append(tagStyleStart + tagStylePadding + tagStyleTopBottomLine + tagStyleEnd + tagAlignLeft + tagEnd);
                         else
-                            sOut.Append(tagStyleTopBottomLine + tagAlignRight + tagEnd);
+                            sOut.Append(tagStyleStart + tagStylePadding + tagStyleTopBottomLine + tagStyleEnd + tagAlignRight + tagEnd);
 
                         sOut.Append(tagPStart + tagBStart + data[i, j] + tagBEnd + tagPEnd);
                         continue;
@@ -138,18 +160,18 @@ namespace Tabulator2
                     if (!hasSummaryRow & i == nRows - 1)
                     {
                         if (j == 0 && hasRowTitles)
-                            sOut.Append(tagstyleThinLine  + tagAlignLeft + tagEnd);
+                            sOut.Append(tagStyleStart + tagStylePadding + tagstyleThinLine + tagStyleEnd + tagAlignLeft + tagEnd);
                         else
-                            sOut.Append(tagstyleThinLine + tagAlignRight + tagEnd);
+                            sOut.Append(tagStyleStart + tagStylePadding + tagstyleThinLine + tagStyleEnd + tagAlignRight + tagEnd);
 
-                        sOut.Append(tagPStart + data[i, j]  + tagPEnd);
+                        sOut.Append(tagPStart + data[i, j] + tagPEnd);
                         continue;
                     }
 
                     if (j == 0 && hasRowTitles)
-                        sOut.Append(tagStyleNoLine + tagAlignLeft + tagEnd);
+                        sOut.Append(tagStyleStart + tagStylePadding + tagStyleNoLine + tagStyleEnd + tagAlignLeft + tagEnd);
                     else
-                        sOut.Append(tagStyleNoLine + tagAlignRight + tagEnd);
+                        sOut.Append(tagStyleStart + tagStylePadding + tagStyleNoLine + tagStyleEnd + tagAlignRight + tagEnd);
 
                     sOut.Append(tagPStart + data[i, j] + tagPEnd);
                     sOut.Append(tagDataEnd);
@@ -157,8 +179,8 @@ namespace Tabulator2
                 sOut.AppendLine(tagRowEnd);
             }
 
-            sOut.AppendLine(tagRowStart + tagTableOtherHeight + tagEnd);
-            sOut.AppendLine(tagDataStart + "colspan=\"" + nCols + "\"" + tagStyleNoLine + tagAlignLeft + tagEnd);
+            sOut.AppendLine(tagTRStart + tagTableOtherHeight + tagEnd);
+            sOut.AppendLine(tagTDStart + "colspan=\"" + nCols + "\"" + tagStyleStart + tagStylePadding + tagStyleNoLine + tagStyleEnd + tagAlignLeft + tagEnd);
             sOut.AppendLine(tagPStart + tblNotes + tagPEnd);
             sOut.AppendLine(tagDataEnd);
             sOut.AppendLine(tagRowEnd);

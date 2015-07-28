@@ -44,6 +44,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtTableWidth = new System.Windows.Forms.TextBox();
             this.lblStatus = new System.Windows.Forms.Label();
+            this.cbBandedRows = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // cmdParse
@@ -112,6 +113,7 @@
             this.txtTableName.Name = "txtTableName";
             this.txtTableName.Size = new System.Drawing.Size(335, 20);
             this.txtTableName.TabIndex = 1;
+            this.txtTableName.Text = "Results of Analysis";
             // 
             // label4
             // 
@@ -197,11 +199,22 @@
             this.lblStatus.TabIndex = 17;
             this.lblStatus.Text = "Ready";
             // 
+            // cbBandedRows
+            // 
+            this.cbBandedRows.AutoSize = true;
+            this.cbBandedRows.Location = new System.Drawing.Point(112, 186);
+            this.cbBandedRows.Name = "cbBandedRows";
+            this.cbBandedRows.Size = new System.Drawing.Size(93, 17);
+            this.cbBandedRows.TabIndex = 18;
+            this.cbBandedRows.Text = "Banded Rows";
+            this.cbBandedRows.UseVisualStyleBackColor = true;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(426, 236);
+            this.Controls.Add(this.cbBandedRows);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtTableWidth);
@@ -249,6 +262,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtTableWidth;
         private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.CheckBox cbBandedRows;
     }
 }
 

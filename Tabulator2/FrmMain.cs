@@ -27,7 +27,7 @@ namespace Tabulator2
             double.TryParse(txtFontSize.Text, out fontSize);
 
             string[,] parsedData = DataParser.Parser(Clipboard.GetText(TextDataFormat.Text));
-            string htmlTable = HtmlFunctions.CreateHtmlTable(parsedData, txtTableNumber.Text, txtTableName.Text, txtTableNotes.Text, cbHasColumnTitles.Checked, cbExtraColRow.Checked ,cbHasSummaryRow.Checked,cbRowTitles.Checked, fontSize, txtTableWidth.Text);
+            string htmlTable = HtmlFunctions.CreateHtmlTable(parsedData, txtTableNumber.Text, txtTableName.Text, txtTableNotes.Text, cbHasColumnTitles.Checked, cbExtraColRow.Checked ,cbHasSummaryRow.Checked,cbRowTitles.Checked, cbBandedRows.Checked , fontSize, txtTableWidth.Text);
             
             HtmlFragment.CopyToClipboard(htmlTable);
             
