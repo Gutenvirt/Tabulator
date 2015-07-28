@@ -101,7 +101,7 @@ namespace Tabulator2
                         tagStyleStart = "style='";
 
                     if (hasSummaryRow && i == nRows - 1)
-                        tagStyleStart = "style='";       
+                        tagStyleStart = "style='";
                 }
                 else
                 {

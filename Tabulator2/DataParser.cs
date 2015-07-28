@@ -17,8 +17,8 @@ namespace Tabulator2
 
             string[] stext = data.Split(new char[] { '\n' }, StringSplitOptions.None);
 
-            int nRows = stext.Length-1;
-            int nCols = stext[0].Count(x => x == delim[0])+1;
+            int nRows = stext.Length - 1;
+            int nCols = stext[0].Count(x => x == delim[0]) + 1;
 
             string[,] result = new string[nRows, nCols];
 
@@ -27,11 +27,8 @@ namespace Tabulator2
                 string[] t = stext[i].Split(delim, StringSplitOptions.None);
                 for (int j = 0; j < nCols; j++)
                 {
-                    if (string.IsNullOrEmpty(t[j]) && j > 0)
-                    {
-                        if (!string.IsNullOrEmpty(result[0, j]))
-                            t[j] = "-";
-                    }
+                    if (i > 0 & string.IsNullOrWhiteSpace(t[j]) && (!string.IsNullOrWhiteSpace(result[0, j]) | !string.IsNullOrWhiteSpace(result[1, j])))
+                        t[j] = "-";
                     result[i, j] = t[j];
                 }
             }
